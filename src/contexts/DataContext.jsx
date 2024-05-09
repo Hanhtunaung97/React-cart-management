@@ -1,8 +1,16 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 
 export const dataContext = createContext();
 const DataContextProvider = ({ children }) => {
-  return <dataContext.Provider value={{}}>{children}</dataContext.Provider>;
+  const [cartDrawer, setCartDrawer] = useState(false);
+  const toggleCartDrawer = () => {
+    setCartDrawer(!cartDrawer);
+  };
+  return (
+    <dataContext.Provider value={{ cartDrawer, toggleCartDrawer }}>
+      {children}
+    </dataContext.Provider>
+  );
 };
 
 export default DataContextProvider;
