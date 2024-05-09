@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { dataContext } from "../contexts/DataContext";
 
 const Product = ({
   product: {
@@ -11,6 +12,20 @@ const Product = ({
     rating: { rate, count },
   },
 }) => {
+  const { addCart } = useContext(dataContext);
+  const [added, setAdded] = useState(false);
+  const handleAddToCartBtn = () => {
+    const newCart = {
+      product_id: id,
+      title,
+      image,
+      price,
+      quantity: 1,
+      cost: price,
+    };
+    addCart(newCart);
+    setAdded(true);
+  };
   return (
     <div className="product-card group">
       <img
@@ -104,8 +119,14 @@ const Product = ({
         <p className="product-card-price font-heading font-bold text-xl mb-3">
           $ <span className="price">{price}</span>
         </p>
-        <button className="add-to-cart duration-100 active:scale-90 border border-neutral-600 block w-full h-12 font-heading">
-          Add to Cart
+        <button
+          disabled={added}
+          onClick={handleAddToCartBtn}
+          className={`${
+            added && "bg-neutral-600 text-white"
+          } add-to-cart duration-100 active:scale-90 border border-neutral-600 block w-full h-12 font-heading select-none disabled:pointer-events-none`}
+        >
+          {added ? "Added" : "Add to Cart"}
         </button>
       </div>
     </div>

@@ -3,7 +3,7 @@ import Container from "./Container";
 import { dataContext } from "../contexts/DataContext";
 
 const Header = () => {
-  const { toggleCartDrawer } = useContext(dataContext);
+  const { toggleCartDrawer,carts } = useContext(dataContext);
   const handleCartBtn = () => {
     toggleCartDrawer();
   };
@@ -70,7 +70,7 @@ const Header = () => {
                 id="cartCountBadge"
                 className="absolute bg-red-500 text-white flex justify-center items-center text-xs w-6 h-6 top-0 right-0 translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white"
               >
-                0
+                {carts.length}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
