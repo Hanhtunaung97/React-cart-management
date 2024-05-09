@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { dataContext } from "../contexts/DataContext";
 import StarRating from "./StarRating";
+import AnimateImage from "./AnimateImage";
 
 const Product = ({
   product: {
@@ -15,6 +16,8 @@ const Product = ({
 }) => {
   const { addCart } = useContext(dataContext);
   const [added, setAdded] = useState(false);
+  const [animate, setAnimate] = useState(false);
+  const [info, setInfo] = useState({});
   const handleAddToCartBtn = () => {
     const newCart = {
       product_id: id,
@@ -26,13 +29,21 @@ const Product = ({
     };
     addCart(newCart);
     setAdded(true);
+    setAnimate(true);
   };
+  const imgRef = useRef();
+  useEffect(() => {
+    setInfo(imgRef.current.getBoundingClientRect());
+  }, []);
   return (
     <div className="product-card group">
       <img
+        ref={imgRef}
         className="product-card-img group-hover:-rotate-6 duration-300 transition-transform h-32 ms-5 -mb-16"
         src={image}
       />
+      {animate && <AnimateImage src={image} info={info} setAnimate={setAnimate} />}
+
       <div className="product-card-body border border-neutral-600 p-5">
         <p className="product-card-title font-heading text-xl line-clamp-1 font-bold mt-14 mb-2">
           {title}

@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Container from "./Container";
 import { dataContext } from "../contexts/DataContext";
 
 const Header = () => {
-  const { toggleCartDrawer,carts } = useContext(dataContext);
+  const { toggleCartDrawer, carts, setCartBtnInfo } = useContext(dataContext);
+  const btnRef = useRef();
+  useEffect(() => {
+    setCartBtnInfo(btnRef.current.getBoundingClientRect());
+  }, []);
   const handleCartBtn = () => {
     toggleCartDrawer();
   };
@@ -62,6 +66,7 @@ const Header = () => {
               </svg>
             </button>
             <button
+              ref={btnRef}
               onClick={handleCartBtn}
               className="border duration-100 active:scale-90 border-neutral-600 bg-neutral-600 text-neutral-200 h-12 w-12 flex justify-center items-center animate__animated relative"
               id="cartBtn"

@@ -4,6 +4,7 @@ export const dataContext = createContext();
 const DataContextProvider = ({ children }) => {
   const [cartDrawer, setCartDrawer] = useState(false);
   const [carts, setCarts] = useState([]);
+  const [cartBtnInfo,setCartBtnInfo]=useState({})
   const addCart = (newCart) => {
     setCarts([...carts, newCart]);
   };
@@ -31,7 +32,7 @@ const DataContextProvider = ({ children }) => {
   };
   return (
     <dataContext.Provider
-      value={{ cartDrawer, addCart, carts, toggleCartDrawer, deleteCart,updateCart }}
+      value={{ cartDrawer, addCart, carts, toggleCartDrawer, deleteCart,updateCart,cartBtnInfo,setCartBtnInfo }}
     >
       {children}
     </dataContext.Provider>
