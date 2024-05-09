@@ -61,7 +61,10 @@ const CartDrawer = () => {
           <div className="text-end">
             <p className="text-neutral-500">Total Cost</p>
             <h1 className="font-heading font-bold text-2xl">
-              $ <span id="cartCostTotal">109.55</span>
+              ${" "}
+              <span id="cartCostTotal">
+                {carts.reduce((pv, cv) => pv + cv.cost, 0).toFixed(2)}
+              </span>
             </h1>
           </div>
           <button

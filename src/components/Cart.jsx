@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
+import { dataContext } from "../contexts/DataContext";
 
-const Cart = ({
-  cart: { product_id, title, price, cost, quantity, image },
-}) => {
+const Cart = ({ cart: { product_id, title, price, quantity, image } }) => {
+  const { deleteCart,updateCart } = useContext(dataContext);
+  const handleDeleteBtn = () => {
+    deleteCart(product_id);
+  };
+  const handleSubBtn=() => {
+    quantity >1 && updateCart(product_id,-1)
+  }
+  const handleAddBtn=() => {
+    updateCart(product_id,1)
+  }
   return (
     <div className="cart-item group">
       <div className="w-full mb-5">
@@ -11,7 +20,10 @@ const Cart = ({
           src={image}
         />
         <div className="border bg-white border-neutral-600 p-3 relative">
-          <button className="cart-item-del bg-red-100 text-red-600 p-1 duration-200 absolute pointer-events-none top-3 -right-3 opacity-0 group-hover:opacity-100 group-hover:right-3 group-hover:pointer-events-auto">
+          <button
+            onClick={handleDeleteBtn}
+            className="cart-item-del bg-red-100 text-red-600 p-1 duration-200 absolute pointer-events-none top-3 -right-3 opacity-0 group-hover:opacity-100 group-hover:right-3 group-hover:pointer-events-auto"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -36,7 +48,7 @@ const Cart = ({
               <span className="cart-item-cost">{price}</span>
             </p>
             <div className="flex">
-              <button className="bg-neutral-300 duration-100 active:scale-90 cart-item-quantity-decrement p-1">
+              <button onClick={handleSubBtn} className="bg-neutral-300 duration-100 active:scale-90 cart-item-quantity-decrement p-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -55,7 +67,7 @@ const Cart = ({
               <p className="cart-item-quantity w-8 text-end bg-neutral-100 pe-1">
                 {quantity}
               </p>
-              <button className="bg-neutral-300 duration-100 active:scale-90 cart-item-quantity-increment p-1">
+              <button onClick={handleAddBtn} className="bg-neutral-300 duration-100 active:scale-90 cart-item-quantity-increment p-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
