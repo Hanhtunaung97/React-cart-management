@@ -1,41 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "./Container";
+import Category from "./Category";
+import { categoryApi } from "../api/category";
+import CategoryLoader from "./CategoryLoader";
 
 const CategoryGroup = () => {
+  const [categories, setCategory] = useState([]);
+  const [ready, setReady] = useState(false);
+  const loaderArray = Array.from({ length: 5 }, (_, index) => index);
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const res = await categoryApi.get("/");
+      setCategory(res.data);
+      setReady(true);
+      //   console.log(res.data);
+    };
+    fetchCategory();
+  }, []);
   return (
     <section className="category-list mb-10 py-3">
       <Container>
-      <p className="font-heading mb-2">Select Categories</p>
+        <p className="font-heading mb-2">Select Categories</p>
         <div
           id="categoryList"
-          className="flex gap-3 select-none overflow-scroll"
+          className="flex gap-3 select-none overflow-x-auto"
         >
-          <button className="category-btn active border border-neutral-600 px-4 py-1">
-            All
-          </button>
-          <div className="hidden last:flex gap-3 animate-pulse">
-            <button className="border border-neutral-200 px-4 py-1 flex items-center">
-              <span className="inline-block bg-neutral-200 w-24 h-4" />
-            </button>
-            <button className="border border-neutral-200 px-4 py-1 flex items-center">
-              <span className="inline-block bg-neutral-200 w-24 h-4" />
-            </button>
-            <button className="border border-neutral-200 px-4 py-1 flex items-center">
-              <span className="inline-block bg-neutral-200 w-24 h-4" />
-            </button>
-          </div>
-          <button className="category-btn whitespace-nowrap border border-neutral-600 px-4 py-1">
-            electronics
-          </button>
-          <button className="category-btn whitespace-nowrap border border-neutral-600 px-4 py-1">
-            jewelery
-          </button>
-          <button className="category-btn whitespace-nowrap border border-neutral-600 px-4 py-1">
-            men's clothing
-          </button>
-          <button className="category-btn whitespace-nowrap border border-neutral-600 px-4 py-1">
-            women's clothing
-          </button>
+          {ready && <Category category="All" />}
+          {!ready &&
+            loaderArray.map((el, index) => <CategoryLoader key={index} />)}
+
+          {ready &&
+            categories.map((category, index) => (
+              <Category key={index} category={category} />
+            ))}
         </div>
       </Container>
     </section>
