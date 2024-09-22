@@ -1,4 +1,4 @@
-# My React cart-management system App using TailwindCSS
+# My React cart-management system App with Json Server using TailwindCSS
 
 ## <a>⚙️ Tech Stack</a>
 
